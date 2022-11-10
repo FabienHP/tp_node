@@ -35,7 +35,7 @@ exports.loginRegister = (req, res) => {
                 let userData = {
                     id: user._id,
                     email: user.email,
-                    role: "user"
+                    role: user.role
                 }
                 jwt.sign(userData, process.env.JWT_KEY, { expiresIn: "30 days" }, (error, token) => {
                     if(error) {

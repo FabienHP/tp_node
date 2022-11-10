@@ -1,19 +1,26 @@
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import { useAuth } from "../../auth/authState";
-import { useEffect } from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from "../../auth/authState";
 
 export default function SignUp() {
   const auth = useAuth();
   const navigate = useNavigate();
+  const [role, setRole] = useState('user');
+
+  const handleChange = (event) => {
+    setRole(event.target.value);
+  };
 
   useEffect(() => {
     if (auth.user) {
@@ -27,6 +34,7 @@ export default function SignUp() {
     const jsonData = {
       email: data.get('email'),
       password: data.get('password'),
+      role: role
     }
 
     auth.signup(jsonData, (status) => {
@@ -77,6 +85,19 @@ export default function SignUp() {
                 id="password"
                 autoComplete="new-password"
               />
+            </Grid>
+            <Grid item xs={12}>
+              <Select
+                defaultValue='user'
+                sx={{ width: "100%" }}
+                id="role"
+                value={role}
+                label="Role"
+                onChange={handleChange}
+              >
+                <MenuItem value={"user"}>User</MenuItem>
+                <MenuItem value={"admin"}>Admin</MenuItem>
+              </Select>
             </Grid>
           </Grid>
           <Button
