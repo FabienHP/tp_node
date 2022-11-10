@@ -60,3 +60,32 @@ exports.loginRegister = (req, res) => {
         }
     })
 }
+
+exports.listAllUsers = (req, res) => {
+    User.find({}, (error, users) => {
+        if (error) {
+            res.status(500);
+            console.log(error);
+            res.json({ message: "Erreur serveur." });
+        }
+        else {
+            res.status(200);
+            res.json(users);
+        }
+    })
+}
+
+exports.deleteAuser = (req, res) => {
+    User.findByIdAndRemove(req.params.user_id, (error) => {
+        if (error) {
+            res.status(401);
+            console.log(error);
+            res.json({ message: "Reqûete invalide." });
+        }
+        else {
+            res.status(200);
+            res.json({message: "User supprimé"});
+        }
+
+    })
+}
