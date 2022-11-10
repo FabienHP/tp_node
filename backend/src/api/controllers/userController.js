@@ -60,3 +60,17 @@ exports.loginRegister = (req, res) => {
         }
     })
 }
+
+exports.listAllUsers = (req, res) => {
+    User.find({}, (error, users) => {
+        if (error) {
+            res.status(500);
+            console.log(error);
+            res.json({ message: "Erreur serveur." });
+        }
+        else {
+            res.status(200);
+            res.json(users);
+        }
+    })
+}
