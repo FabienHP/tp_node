@@ -6,7 +6,7 @@ export default function RequireAuth({ children }) {
   const location = useLocation();
 
   if (!auth.user) {
-    return <Navigate to="/sign/in" state={{ from: location }} replace />
+    return <Navigate to="/signin" state={{ from: location }} replace />
   }
 
   return children

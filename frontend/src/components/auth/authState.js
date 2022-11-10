@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
     // Header
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Access-Control-Allow-Origin", "http://localhost:3000");
+    myHeaders.append("Access-Control-Allow-Origin", "http://localhost:3001");
 
     // Request option
     var requestOptions = {
@@ -29,7 +29,7 @@ export function AuthProvider({ children }) {
     // Header
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Access-Control-Allow-Origin", "http://localhost:3000");
+    myHeaders.append("Access-Control-Allow-Origin", "http://localhost:3001");
 
     // Request option
     var requestOptions = {
