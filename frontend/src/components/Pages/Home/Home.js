@@ -10,11 +10,16 @@ export default function Home() {
   const [postList, setPostList] = useState(null);
 
   useEffect(() => {
-    auth.user ?
-      fetch(`${process.env.REACT_APP_BACKEND}/posts`)
+    if (auth.user) {
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", auth.user.token);
+
+      fetch(`${process.env.REACT_APP_BACKEND}/posts`, { headers: myHeaders })
         .then(res => res.json())
         .then(res => setPostList(res))
-      : setPostList(null)
+    } else {
+      setPostList(null)
+    }
   }, [auth])
 
   return (
@@ -22,35 +27,41 @@ export default function Home() {
       <Typography variant="h3" gutterBottom>
         Post list
       </Typography>
-      <Stack spacing={4} sx={{ width: "100%", mb: 5 }}>
-        {postList ? postList.map(post => (
-          <Paper
-            key={post._id}
-            sx={{
-              color: "secondary",
-              height: "fit-content",
-              padding: 2,
-              width: "100%"
-            }}
-            elevation={3}
-          >
-            <Typography variant='h5' gutterBottom>
-              {post.title}
+      <Stack spacing={4} sx={{ width: "100%", mb: 5, textAlign: "center" }}>
+        {postList && postList.length
+          ? postList.map(post => (
+            <Paper
+              key={post._id}
+              sx={{
+                color: "secondary",
+                height: "fit-content",
+                padding: 2,
+                width: "100%"
+              }}
+              elevation={3}
+            >
+              <Typography variant='h5' gutterBottom>
+                {post.title}
+              </Typography>
+              <Typography component="div" variant='body1' gutterBottom sx={{ textAlign: "justify" }}>
+                {post.content.split("\n").map((i, key) => {
+                  return <p key={key}>{i}</p>;
+                })}
+              </Typography>
+              <Typography variant='caption' color="secondary.dark">
+                {new Date(post.created_at).toDateString()}
+              </Typography>
+            </Paper>
+          ))
+          : postList && !postList.length ? (
+            <Typography variant='h5' color="error.dark">
+              {"No post found"}
             </Typography>
-            <Typography component="div" variant='body1' gutterBottom sx={{ textAlign: "justify" }}>
-              {post.content.split("\n").map((i, key) => {
-                return <p key={key}>{i}</p>;
-              })}
+          ) : (
+            <Typography variant='h5' color="error.dark">
+              {"Not connected"}
             </Typography>
-            <Typography variant='caption' color="secondary.dark">
-              {new Date(post.created_at).toDateString()}
-            </Typography>
-          </Paper>
-        )) : (
-          <Typography variant='h5' color="error.dark">
-            {"Not connected"}
-          </Typography>
-        )}
+          )}
       </Stack>
     </Container>
   );
