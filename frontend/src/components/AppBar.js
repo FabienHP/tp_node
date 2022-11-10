@@ -1,5 +1,4 @@
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -38,7 +37,7 @@ export default function AppBarNav() {
               </Link>
             </Typography>
 
-            {auth?.user ? (
+            {auth.user ? (
               <>
                 <IconButton
                   size="large"
@@ -59,7 +58,7 @@ export default function AppBarNav() {
                 >
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
                   <MenuItem onClick={() => navigate('/')}>Dashboard</MenuItem>
-                  <MenuItem onClick={() => auth.signout(() => false)}>Disconnect</MenuItem>
+                  <MenuItem onClick={() => auth.signout(() => handleClose())}>Disconnect</MenuItem>
                 </Menu>
               </>
             ) : (

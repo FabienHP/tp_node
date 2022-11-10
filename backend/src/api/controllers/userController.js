@@ -46,7 +46,7 @@ exports.loginRegister = (req, res) => {
                     }
                     else {
                         res.status(200);
-                        res.json({token});
+                        res.json({...user._doc, token});
                     }
                 })
             }

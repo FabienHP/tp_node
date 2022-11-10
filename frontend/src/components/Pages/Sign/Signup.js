@@ -25,14 +25,16 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const jsonData = {
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
       email: data.get('email'),
       password: data.get('password'),
     }
 
-    auth.signup(jsonData, () => {
-      navigate('/signin/')
+    auth.signup(jsonData, (status) => {
+      if (status) {
+        navigate('/signin/')
+      } else {
+        console.log("Error on signup");
+      }
     })
   };
 
@@ -55,27 +57,6 @@ export default function SignUp() {
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                name="firstName"
-                autoComplete="given-name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 required
