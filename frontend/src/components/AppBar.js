@@ -37,6 +37,14 @@ export default function AppBarNav() {
               </Link>
             </Typography>
 
+            {auth.user?.role === "admin" && (
+              <Link to={'/postApost'}>
+                <Button color="inherit">
+                  Add post
+                </Button>
+              </Link>
+            )}
+
             {auth.user ? (
               <>
                 <IconButton

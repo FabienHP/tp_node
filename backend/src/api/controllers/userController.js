@@ -23,14 +23,14 @@ exports.loginRegister = (req, res) => {
     // Find user
     User.findOne({ email: req.body.email }, (error, user) => {
         // If user not found
-        if (error) {
+        if (error || !user) {
             res.status(500);
             console.log(error);
             res.json({ message: "Utilisateur non trouvé" });
         }
         else {
             // User found
-            if (user.email == req.body.email && user.password == req.body.password) {
+            if (user.email === req.body.email && user.password === req.body.password) {
                 // Password correct
                 let userData = {
                     id: user._id,
@@ -38,15 +38,15 @@ exports.loginRegister = (req, res) => {
                     role: user.role
                 }
                 jwt.sign(userData, process.env.JWT_KEY, { expiresIn: "30 days" }, (error, token) => {
-                    if(error) {
+                    if (error) {
                         res.status(500);
                         console.log(error);
-                        res.json({message: "Impossible de générer le token"});
+                        res.json({ message: "Impossible de générer le token" });
 
                     }
                     else {
                         res.status(200);
-                        res.json({...user._doc, token});
+                        res.json({ ...user._doc, token });
                     }
                 })
             }
@@ -84,7 +84,7 @@ exports.deleteAuser = (req, res) => {
         }
         else {
             res.status(200);
-            res.json({message: "User supprimé"});
+            res.json({ message: "User supprimé" });
         }
 
     })
